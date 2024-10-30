@@ -1,0 +1,35 @@
+rules:
+  - id: user-input-no-sanitization
+    message: "Potential vulnerability: Untrusted user input is used without sanitization."
+    severity: WARNING
+    languages: [java]
+    patterns:
+      - pattern: |
+          String $INPUT_VAR = $REQ.getParameter($INPUT_NAME);
+      - pattern-not: |
+          $INPUT_VAR = sanitize($INPUT_VAR);
+    metadata:
+      author: "Your Name"
+      description: "Detects untrusted user input without sanitization."
+  
+  - id: direct-output-to-response
+    message: "Potential vulnerability: Untrusted input is directly written to the HTTP response."
+    severity: WARNING
+    languages: [java]
+    patterns:
+      - pattern: |
+          $RESP.getWriter().println($UNTRUSTED_INPUT);
+    metadata:
+      author: "Your Name"
+      description: "Detects direct use of untrusted input in HTTP response."
+
+  - id: weak-validation-check
+    message: "Potential vulnerability: Weak validation check on user input."
+    severity: WARNING
+    languages: [java]
+    patterns:
+      - pattern: |
+          if ($INPUT == null || $INPUT.isEmpty()) { ... }
+    metadata:
+      author: "Your Name"
+      description: "Detects weak validation checks on user input."
